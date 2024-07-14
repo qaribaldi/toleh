@@ -20,6 +20,7 @@ function App() {
       </div> */}
       <Router>
         <Routes>
+          {/* bebas */}
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Menuutama />} />
           <Route path="/kasir" element={<Menukasir />} />

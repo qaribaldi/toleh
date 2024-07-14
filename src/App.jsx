@@ -11,6 +11,11 @@ import Pengelolaan from "./component/pengelolaan";
 import Pegawai from "./component/pegawai";
 import PemilikToko from "./component/pemilikToko";
 import PegawaiPembelian from "./component/pegawaiPembelian";
+import Melihatpembelian from "./component/melihatpembelian";
+import Editbarang from "./component/editbarang";
+import PemilikTokoPembelian from "./component/pemilikTokoPembelian";
+import PemilikTokoValidasi from "./component/pemilikTokoValidasi";
+import Tambahbarang from "./component/tambahBarang";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -32,8 +37,13 @@ function App() {
           <Route path="/pegawai/pembelian" element={<PegawaiPembelian />} />
           <Route path="/pegawai/penjualan" element={<Penjualan />} />
           <Route path="/pegawai/pengelolaan" element={<Pengelolaan />} />
+          <Route path="/pegawai/melihat" element={<Melihatpembelian />} />
+          <Route path="/pegawai/editbarang" element={<Editbarang />} />
+          <Route path="/pegawai/tambahbarang" element={<Tambahbarang />} />
 
           <Route path="/pemilik" element={<PemilikToko />} />
+          <Route path="/pemilik/pembelian" element={<PemilikTokoPembelian />} />
+          <Route path="/pemilik/validasi" element={<PemilikTokoValidasi />} />
         </Routes>
       </Router>
     </>

@@ -6,10 +6,10 @@ const Melihatpembelian = () => {
       <div>
         <div className=" flex ">
           <div className="w-28 bg-slate-200 ">Logo</div>
-          <div className="w-28 bg-slate-200 fixed min-h-screen flex justify-center">
+          <div className="w-28 bg-white fixed min-h-screen flex justify-center">
             Logo
           </div>
-          <div className="bg-red-600 w-full min-h-screen flex items-center flex-col">
+          <div className="bg-[#F0F0F0] w-full min-h-screen flex items-center flex-col">
             <div className=" px-5 py-1 fixed  w-1/2 flex gap-5">
               <label className="input input-bordered flex items-center gap-2 bg-white opacity-50 w-full :bg-black">
                 <input type="text" className="grow" placeholder="Search" />
@@ -37,7 +37,7 @@ const Melihatpembelian = () => {
             </div>
           </div>
           <div className="w-1/3"></div>
-          <div className=" fixed w-1/4 min-h-screen  bg-slate-500 right-0 flex flex-col">
+          <div className=" fixed w-1/4 min-h-screen  bg-white right-0 flex flex-col">
             <p className="text-center text-3xl text-black mt-2">
               List Pembelian
             </p>

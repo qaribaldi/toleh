@@ -16,6 +16,7 @@ import Editbarang from "./component/editbarang";
 import PemilikTokoPembelian from "./component/pemilikTokoPembelian";
 import PemilikTokoValidasi from "./component/pemilikTokoValidasi";
 import Tambahbarang from "./component/tambahBarang";
+import KasirPencarian from "./component/kasirPencarianBarang";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -33,6 +34,7 @@ function App() {
           <Route path="/" element={<Menuutama />} />
           <Route path="/kasir" element={<Menukasir />} />
           <Route path="/kasir/penjualan" element={<Penjualan />} />
+          <Route path="/kasir/pencarian" element={<KasirPencarian />} />
 
           <Route path="/pegawai" element={<Pegawai />} />
           <Route path="/pegawai/pembelian" element={<PegawaiPembelian />} />

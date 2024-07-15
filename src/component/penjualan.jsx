@@ -3,11 +3,16 @@ import CardPenjualan from "./card/cardPenjualan";
 import CardPenjualanKeranjang from "./card/cardPenjualanKeranjang";
 import PopupPenjualan from "./popup/popupPenjualan";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const Penjualan = () => {
-  const [popup, setPopup] = useState(true);
+  const navigate = useNavigate();
+  const [popup, setPopup] = useState(false);
   const [isiPopup, setIsiPopup] = useState(true);
   const [barang, setBarang] = useState([]);
+
+  const [metodePembayaran, setMetodePembayaran] = useState("Cash");
+
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -47,18 +52,6 @@ const Penjualan = () => {
     }
   };
 
-  const hapusItemKeranjang = (id) => {
-    setKeranjang(keranjang.filter((item) => item.id !== id));
-  };
-
-  const tambahJumlahItem = (id) => {
-    setKeranjang(
-      keranjang.map((item) =>
-        item.id === id ? { ...item, jumlah: item.jumlah + 1 } : item
-      )
-    );
-  };
-
   const kurangiJumlahItem = (barang) => {
     if (keranjang[barang.id_barang].jumlah > 1) {
       setKeranjang({
@@ -90,7 +83,7 @@ const Penjualan = () => {
     });
     const data = {
       barang: keranjangFinal,
-      metode_pembayaran: "Cash",
+      metode_pembayaran: metodePembayaran,
     };
 
     const response = await fetch("http://localhost/tubes/be/penjualan.php", {
@@ -161,9 +154,14 @@ const Penjualan = () => {
             <div className="w-full px-1">
               <div className=" p-0.5 w-full bg-black"> </div>
             </div>
-            <button className="mt-2 flex justify-center p-2  ">
+            <button
+              className="mt-2 flex justify-center p-2  "
+              onClick={() => {
+                navigate("/kasir");
+              }}
+            >
               <img
-                src="https://img.icons8.com/?size=100&id=vZasO3UTBpQE&format=png&color=000000"
+                src="https://img.icons8.com/?size=100&id=1806&format=png&color=000000"
                 className=" hover:bg-[#3F72AF] p-1 rounded-lg"
               />
             </button>
@@ -210,7 +208,43 @@ const Penjualan = () => {
                 />
               ))}
             </div>
-            <div className=" flex flex-col justify-center  h-1/4 w-full  px-5">
+            <div className=" flex flex-col justify-center  h-1/3 w-full  px-5">
+              <div className="flex items-center">
+                <div className="text-black pe-2 w-full">Metode Pembayaran</div>
+                <div className="w-full flex justify-end ">
+                  <details className="dropdown w-full  ">
+                    <summary className="btn m-1 bg-[#0065DC] text-white font-bold border-white w-full">
+                      {metodePembayaran}
+                    </summary>
+                    <ul className="menu dropdown-content bg-base-100 rounded-box w-full z-[1]  p-2 shadow">
+                      <li>
+                        <button
+                          onClick={() => {
+                            setMetodePembayaran("Cash");
+                          }}
+                          className={
+                            metodePembayaran === "Cash" && "text-[#0065DC]"
+                          }
+                        >
+                          Cash
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => {
+                            setMetodePembayaran("Transfer");
+                          }}
+                          className={
+                            metodePembayaran === "Transfer" && "text-[#0065DC]"
+                          }
+                        >
+                          Transfer
+                        </button>
+                      </li>
+                    </ul>
+                  </details>
+                </div>
+              </div>
               <div className="flex w-full  ">
                 <div className="w-full">
                   <p className="text-black text-xl">Jumlah Barang</p>

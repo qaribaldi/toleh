@@ -20,7 +20,7 @@ const CardPenjualan = ({
             className="w-full h-[150px] bg-cover rounded-md"
             style={{
               backgroundImage: `url( ${
-                "http://localhost/tubes/be/foto/" + barang.id_barang + ".jpg"
+                "http://localhost/tubes/be/foto/" + barang.id_barang + ".png"
               })`,
             }}
           ></div>

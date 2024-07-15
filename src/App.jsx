@@ -32,10 +32,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Menuutama />} />
           <Route path="/kasir" element={<Menukasir />} />
+          <Route path="/kasir/penjualan" element={<Penjualan />} />
 
           <Route path="/pegawai" element={<Pegawai />} />
           <Route path="/pegawai/pembelian" element={<PegawaiPembelian />} />
-          <Route path="/pegawai/penjualan" element={<Penjualan />} />
           <Route path="/pegawai/pengelolaan" element={<Pengelolaan />} />
           <Route path="/pegawai/melihat" element={<Melihatpembelian />} />
           <Route path="/pegawai/editbarang" element={<Editbarang />} />

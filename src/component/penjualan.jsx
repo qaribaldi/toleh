@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import CardPenjualan from "./card/cardPenjualan";
 import CardPenjualanKeranjang from "./card/cardPenjualanKeranjang";
 import PopupPenjualan from "./popup/popupPenjualan";
-<<<<<<< HEAD
-import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-=======
->>>>>>> refs/remotes/origin/main
 
 const Penjualan = () => {
   const navigate = useNavigate();

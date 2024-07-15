@@ -1,7 +1,7 @@
 const CardMelihatPembelian = () => {
   return (
     <>
-      <div className="bg-black rounded-md mt-10 flex">
+      <div className="bg-white rounded-md mt-10 flex shadow-md">
         <div className="p-2 flex">
           <img
             className=" w-48 rounded-md"

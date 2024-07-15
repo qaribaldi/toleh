@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import CardPenjualan from "./card/cardPenjualan";
 import CardPenjualanKeranjang from "./card/cardPenjualanKeranjang";
 import PopupPenjualan from "./popup/popupPenjualan";
-import { format } from "date-fns";
 
 const Penjualan = () => {
   const [popup, setPopup] = useState(true);

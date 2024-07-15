@@ -1,5 +1,5 @@
-import CardPembelian from "./card/cardPembelian";
-const PemilikTokoPembelian = () => {
+import CardPencarian from "./card/cardPencarian";
+const KasirPencarian = () => {
   return (
     <>
       <div>
@@ -16,9 +16,10 @@ const PemilikTokoPembelian = () => {
               />
             </button>
           </div>
-          <div className=" bg-[#F0F0F0] w-full min-h-screen flex items-center flex-col">
+
+          <div className="bg-[#F0F0F0] w-full min-h-screen flex items-center flex-col">
             <div className=" px-5 py-1 fixed  w-4/5 flex gap-5 ">
-              <label className="input input-bordered flex items-center gap-2 bg-white  w-full :bg-black shadow-md">
+              <label className="input input-bordered flex items-center gap-2 bg-white opacity-50 w-full :bg-black shadow-md">
                 <input type="text" className="grow" placeholder="Search " />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -35,12 +36,11 @@ const PemilikTokoPembelian = () => {
               </label>
             </div>
             <div className=" flex-col w-full gap-20 p-10">
-              <CardPembelian />
-              <CardPembelian />
-              <CardPembelian />
-              <CardPembelian />
-              <CardPembelian />
-              <CardPembelian />
+              <CardPencarian />
+              <CardPencarian />
+              <CardPencarian />
+              <CardPencarian />
+              <CardPencarian />
             </div>
           </div>
 
@@ -51,4 +51,4 @@ const PemilikTokoPembelian = () => {
   );
 };
 
-export default PemilikTokoPembelian;
+export default KasirPencarian;

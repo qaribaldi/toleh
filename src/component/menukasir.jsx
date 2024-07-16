@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import PopupValidasiPembelian from "./popup/popupValidasiPembelian";
+import PopupNotif from "./popup/popupNotif";
 
 const Menukasir = () => {
   const navigate = useNavigate();
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [popup, setPopup] = useState(false);
+  const [popup1, setPopup1] = useState(false);
+  const [isiPopup, setIsiPopup] = useState();
 
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -16,6 +21,11 @@ const Menukasir = () => {
 
   const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
   const dayName = days[currentDateTime.getDay()];
+  const logout = () => {
+    setPopup1(true);
+    setPopup(false);
+    setIsiPopup("Anda Berhasil Log out");
+  };
   return (
     <>
       <div>
@@ -25,7 +35,12 @@ const Menukasir = () => {
             <div className="w-full px-1">
               <div className=" p-0.5 w-full bg-black"> </div>
             </div>
-            <button className="mt-2 flex justify-center p-2  ">
+            <button
+              className="mt-2 flex justify-center p-2  "
+              onClick={() => {
+                setPopup(true);
+              }}
+            >
               <img
                 src="https://img.icons8.com/?size=100&id=vZasO3UTBpQE&format=png&color=000000"
                 className=" hover:bg-[#3F72AF] p-1 rounded-lg"
@@ -120,6 +135,24 @@ const Menukasir = () => {
           </div>
         </div>
       </div>
+      {popup && (
+        <PopupValidasiPembelian
+          closePopup={() => {
+            setPopup(false);
+          }}
+          isi={"Apakah Anda yakin Log out  ?"}
+          confirm={logout}
+        />
+      )}
+      {popup1 && (
+        <PopupNotif
+          closePopup={() => {
+            setPopup1(false);
+            navigate("/login");
+          }}
+          isi={isiPopup}
+        />
+      )}
     </>
   );
 };

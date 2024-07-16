@@ -41,10 +41,15 @@ const Menukasir = () => {
                 meraih sukses dengan sedikit kompetisi dalam pekerjaan anda.
               </p>
               <div className="flex gap-16 mt-[60px]">
-                <button className="bg-[#3F72AF] hover:bg-[#112D4E] p-5 rounded-[40px] w-[228px] shadow-[2.4px_2.4px_3.2px_rgba(0,0,0,15)]">
+                <button
+                  className="bg-[#3F72AF] hover:bg-[#112D4E] p-5 rounded-[40px] w-[228px] shadow-[2.4px_2.4px_3.2px_rgba(0,0,0,15)]"
+                  onClick={() => {
+                    navigate("/pemilik/pembelian");
+                  }}
+                >
                   <div>
                     <img
-                      src="https://cdn-icons-png.flaticon.com/128/3388/3388506.png"
+                      src="https://img.icons8.com/?size=100&id=11159&format=png&color=ffffff"
                       alt=""
                     />
                     <div className="flex w-full justify-end">
@@ -63,13 +68,14 @@ const Menukasir = () => {
                 <button
                   className="bg-[#3F72AF] hover:bg-[#112D4E] p-5 rounded-[40px] w-[228px] shadow-[2.4px_2.4px_3.2px_rgba(0,0,0,15)]"
                   onClick={() => {
-                    navigate("/kasir/penjualan");
+                    navigate("/pemilik/pencarian");
                   }}
                 >
                   <div>
                     <img
-                      src="https://cdn-icons-png.flaticon.com/128/8451/8451032.png"
+                      src="https://img.icons8.com/?size=100&id=mKK6z8EZBUCI&format=png&color=ffffff"
                       alt=""
+                      className="w-1/2"
                     />
                     <div className="flex w-full justify-end">
                       <img

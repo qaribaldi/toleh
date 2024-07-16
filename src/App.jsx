@@ -24,10 +24,6 @@ function App() {
 
   return (
     <>
-      {/* <div>
-        <Login />
-        <Menuutama />
-      </div> */}
       <Router>
         <Routes>
           {/* bebas */}
@@ -35,7 +31,10 @@ function App() {
           <Route path="/" element={<Menuutama />} />
           <Route path="/kasir" element={<Menukasir />} />
           <Route path="/kasir/penjualan" element={<Penjualan />} />
-          <Route path="/kasir/pencarian" element={<Pencarian />} />
+          <Route
+            path="/kasir/pencarian"
+            element={<Pencarian status={"kasir"} />}
+          />
 
           <Route path="/pegawai" element={<Pegawai />} />
           <Route path="/pegawai/pembelian" element={<PegawaiPembelian />} />
@@ -48,8 +47,16 @@ function App() {
             path="/pegawai/pembelian/:id_pembelian"
             element={<Melihatpembelian />}
           />
+          <Route
+            path="/pegawai/pencarian"
+            element={<Pencarian status={"pegawai"} />}
+          />
 
           <Route path="/pemilik" element={<PemilikToko />} />
+          <Route
+            path="/pemilik/pencarian"
+            element={<Pencarian status={"pemilik"} />}
+          />
           <Route path="/pemilik/pembelian" element={<PemilikTokoPembelian />} />
           <Route
             path="/pemilik/pembelian/:id_pembelian"

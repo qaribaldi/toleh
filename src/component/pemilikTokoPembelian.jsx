@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import CardPembelian from "./card/cardPembelian";
+import { useNavigate } from "react-router-dom";
 
 const PemilikTokoPembelian = () => {
+  const navigate = useNavigate();
   const [pembelian, setPembelian] = useState([]);
   useEffect(() => {
     fetch("http://localhost/tubes/be/get_pembelian.php")
@@ -19,7 +21,12 @@ const PemilikTokoPembelian = () => {
             <div className="w-full px-1">
               <div className=" p-0.5 w-full bg-black"> </div>
             </div>
-            <button className="mt-2 flex justify-center p-2  ">
+            <button
+              className="mt-2 flex justify-center p-2  "
+              onClick={() => {
+                navigate("/pemilik");
+              }}
+            >
               <img
                 src="https://img.icons8.com/?size=100&id=1806&format=png&color=000000"
                 className=" hover:bg-[#3F72AF] p-1 rounded-lg "

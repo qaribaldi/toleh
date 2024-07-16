@@ -34,7 +34,7 @@ const Pengelolaan = () => {
           <div className=" bg-white h-screen  w-20   ">
             <div className="w-full justify-center items-center ">
               {" "}
-              <img src="../img/logo.png" alt="" className="w-20" />
+              <img src="../img/logo.png" alt="" />
             </div>
             <div className="w-full px-1">
               <div className=" p-0.5 w-full bg-black"> </div>

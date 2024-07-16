@@ -38,14 +38,19 @@ const PegawaiPembelian = () => {
     <>
       <div>
         <div className=" flex min-h-screen ">
-          <div className=" w-20 bg-white shadow-lg">
+          <div className=" w-14 bg-white shadow-lg">
             <img src="../img/logo.png" alt="" />
             <div className="w-full px-1">
               <div className=" p-0.5 w-full bg-black"> </div>
             </div>
-            <button className="mt-2 flex justify-center p-2  ">
+            <button
+              className="mt-2 flex justify-center p-2  "
+              onClick={() => {
+                navigate("/pegawai");
+              }}
+            >
               <img
-                src="https://img.icons8.com/?size=100&id=vZasO3UTBpQE&format=png&color=000000"
+                src="https://img.icons8.com/?size=100&id=1806&format=png&color=000000"
                 className=" hover:bg-[#3F72AF] p-1 rounded-lg"
               />
             </button>
@@ -111,11 +116,11 @@ const PegawaiPembelian = () => {
             <div className="w-full flex flex-col">
               <div className="w-full flex justify-end ">
                 <div className="p-5 pe-10">
-                  <p className="text-5xl text-black">Kasir</p>
+                  <p className="text-5xl text-black">Pegawai</p>
                 </div>
               </div>
               <div className="flex justify-end ">
-                <div className="p-0.5 w-1/3 bg-black"></div>
+                <div className="p-0.5 w-1/2 bg-black"></div>
               </div>
               <div className="w-full pe-10 pt-10 flex justify-end ">
                 <img

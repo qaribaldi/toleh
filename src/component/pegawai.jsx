@@ -20,7 +20,7 @@ const Pegawai = () => {
     <>
       <div>
         <div className=" flex min-h-screen ">
-          <div className=" w-20 bg-white shadow-lg">
+          <div className=" w-14 bg-white shadow-lg">
             <img src="../img/logo.png" alt="" />
             <div className="w-full px-1">
               <div className=" p-0.5 w-full bg-black"> </div>
@@ -32,7 +32,7 @@ const Pegawai = () => {
               />
             </button>
           </div>
-          <div className="p-1 bg-gradient-to-r from-gray-200 to-[#F0F0F0] "></div>
+
           <div className="bg-[#F0F0F0] w-full flex ">
             <div className="w-full flex flex-col p-10 justify-center items-center">
               <p className="text-7xl font-bold text-black mb-10">Pintu Snack</p>
@@ -68,7 +68,7 @@ const Pegawai = () => {
                 <button
                   className="bg-[#3F72AF] hover:bg-[#112D4E] p-5 rounded-[40px] w-[200px] shadow-[2.4px_2.4px_3.2px_rgba(0,0,0,15)]"
                   onClick={() => {
-                    navigate("/kasir/penjualan");
+                    navigate("/pegawai/pencarian");
                   }}
                 >
                   <div>

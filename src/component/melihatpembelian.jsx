@@ -69,7 +69,7 @@ const Melihatpembelian = () => {
             <button
               className="mt-2 flex justify-center p-2  "
               onClick={() => {
-                navigate("/kasir");
+                navigate("/pegawai/pembelian");
               }}
             >
               <img

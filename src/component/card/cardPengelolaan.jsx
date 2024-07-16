@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PopupDeleteBarang from "../popup/popupDeleteBarang";
 import PopupNotif from "../popup/popupNotif";
+import { useNavigate } from "react-router-dom";
 
 const CardPengelolaan = ({
   nama,
@@ -12,6 +13,7 @@ const CardPengelolaan = ({
   edit,
   change,
 }) => {
+  const navigate = useNavigate();
   const [popup, setPopup] = useState(false);
   const [popup1, setPopup1] = useState(false);
   const [isiPopup, setIsiPopup] = useState("");
@@ -135,6 +137,7 @@ const CardPengelolaan = ({
           closePopup={() => {
             setPopup1(false);
             change();
+            navigate("/pegawai/pengelolaan");
           }}
         />
       )}

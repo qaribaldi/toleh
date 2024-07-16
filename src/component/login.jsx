@@ -13,7 +13,7 @@ const Login = () => {
     const formData = new FormData();
     formData.append("id_pegawai", idPegawai);
     formData.append("password", password);
-    const res = await fetch("http://192.168.0.105/tubes/be/login.php", {
+    const res = await fetch("http://localhost/tubes/be/login.php", {
       method: "POST",
       body: formData,
     });
@@ -25,16 +25,22 @@ const Login = () => {
   const closePopup = () => {
     setPopup(false);
     if (respon.status == "success") {
-      navigate("/");
+      if (respon.status_pegawai === "Pegawai") {
+        navigate("/pegawai");
+      } else if (respon.status_pegawai === "Kasir") {
+        navigate("/kasir");
+      } else {
+        navigate("/pemilik");
+      }
     }
   };
   return (
     <>
       <div className=" bg-[#112D4E] flex min-h-screen justify-center items-center">
-        <div className=" bg-white p-10 rounded-xl shadow-md">
-          <div className="grid grid-cols-2 gap-10 justify-center items-center">
+        <div className=" bg-white p-10 rounded-xl shadow-md w-1/2">
+          <div className="flex gap-10 justify-center items-center">
             <div className=" w-full">
-              <div className=" text-center font-bold text-xl ">
+              <div className=" text-center font-bold text-3xl text-black ">
                 Toko Oleh Oleh
               </div>
               <label className="form-control w-full">
@@ -46,7 +52,7 @@ const Login = () => {
                 <input
                   type="text"
                   placeholder="Type here"
-                  className="input input-bordered w-full shadow-md"
+                  className="input input-bordered w-full shadow-md bg-white text-black"
                   id="idPegawai"
                   value={idPegawai}
                   onChange={(e) => setidPegawai(e.target.value)}
@@ -59,7 +65,7 @@ const Login = () => {
                 <input
                   type="password"
                   placeholder="Type here"
-                  className="input input-bordered w-full shadow-md"
+                  className="input input-bordered w-full shadow-md bg-white text-black "
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -72,9 +78,12 @@ const Login = () => {
                 </button>
               </label>
             </div>
-            <div className=" p-10 w-96">
-              <img src="./img/logo.png" alt="" className="mt-10 " />
-            </div>
+            <div
+              className="w-full h-[300px] bg-cover rounded-md"
+              style={{
+                backgroundImage: `url( ${"./img/logo.png"})`,
+              }}
+            ></div>
           </div>
         </div>
       </div>

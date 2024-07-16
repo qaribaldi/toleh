@@ -122,7 +122,7 @@ const Pembelian = () => {
         <div className=" flex ">
           <div className=" bg-white min-h-screen w-20   ">
             <div className="w-full justify-center items-center ">
-              <img src="/img/logo.png" alt="" className="w-20" />
+              <img src="/img/logo.png" alt="" />
             </div>
             <div className="w-full px-1">
               <div className=" p-0.5 w-full bg-black"> </div>
@@ -130,7 +130,7 @@ const Pembelian = () => {
             <button
               className="mt-2 flex justify-center p-2  "
               onClick={() => {
-                navigate("/kasir");
+                navigate("/pegawai/pembelian");
               }}
             >
               <img
@@ -227,6 +227,7 @@ const Pembelian = () => {
         <PopupNotif
           closePopup={() => {
             setPopup1(false);
+            navigate("/pegawai/pembelian");
           }}
           isi={isiPopup}
         />

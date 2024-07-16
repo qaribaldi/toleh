@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import CardValidasi from "./card/cardValidasi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PopupValidasiPembelian from "./popup/popupValidasiPembelian";
 import PopupNotif from "./popup/popupNotif";
 const PemilikTokoValidasi = () => {
+  const navigate = useNavigate();
   const [popup, setPopup] = useState(false);
   const [popup1, setPopup1] = useState(false);
   const [isiPopup, setIsiPopup] = useState("");
@@ -98,12 +99,17 @@ const PemilikTokoValidasi = () => {
     <>
       <div>
         <div className=" flex ">
-          <div className="w-20 bg-white shadow-lg">
+          <div className="w-16 bg-white shadow-lg">
             <img src="/img/logo.png" alt="" />
             <div className="w-full px-1">
               <div className=" p-0.5 w-full bg-black"> </div>
             </div>
-            <button className="mt-2 flex justify-center p-2  ">
+            <button
+              className="mt-2 flex justify-center p-2  "
+              onClick={() => {
+                navigate("/pemilik/pembelian");
+              }}
+            >
               <img
                 src="https://img.icons8.com/?size=100&id=1806&format=png&color=000000"
                 className=" hover:bg-[#3F72AF] p-1 rounded-lg "

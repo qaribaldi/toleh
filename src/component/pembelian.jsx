@@ -3,14 +3,17 @@ import CardPenjualan from "./card/cardPenjualan";
 import CardPenjualanKeranjang from "./card/cardPenjualanKeranjang";
 import PopupPenjualan from "./popup/popupPenjualan";
 import { useNavigate } from "react-router-dom";
+import CardPembelian from "./card/cardPembelian";
+import CardPembelianKeranjang from "./card/cardPembelianKeranjang";
+import PopupTambahPembelian from "./popup/popupTambahBarang";
+import PopupNotif from "./popup/popupNotif";
 
-const Penjualan = () => {
+const Pembelian = () => {
   const navigate = useNavigate();
   const [popup, setPopup] = useState(false);
+  const [popup1, setPopup1] = useState(false);
   const [isiPopup, setIsiPopup] = useState(true);
   const [barang, setBarang] = useState([]);
-
-  const [metodePembayaran, setMetodePembayaran] = useState("Cash");
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -70,7 +73,7 @@ const Penjualan = () => {
 
   const keranjangItems = Object.values(keranjang);
   const totalHarga = keranjangItems.reduce((total, item) => {
-    return total + parseInt(item.harga_jual) * item.jumlah;
+    return total + parseInt(item.harga_beli) * item.jumlah;
   }, 0);
 
   const handleCheckout = async () => {
@@ -82,10 +85,9 @@ const Penjualan = () => {
     });
     const data = {
       barang: keranjangFinal,
-      metode_pembayaran: metodePembayaran,
     };
 
-    const response = await fetch("http://localhost/tubes/be/penjualan.php", {
+    const response = await fetch("http://localhost/tubes/be/pembelian.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -94,45 +96,18 @@ const Penjualan = () => {
     });
 
     const result = await response.json();
+    console.log(result);
     setPopup(true);
     if (result.status === "success") {
-      setIsiPopup(
-        <>
-          {" "}
-          <>
-            <p className="text-xl text-black">Tanggal : {result.tanggal} </p>
-            <p className="text-2xl text-black font-bold mb-5 mt-2">
-              Detail Pesanan{" "}
-            </p>
-            <div className="">
-              {keranjangItems.map((item) => (
-                <div key={item.id_barang} className="flex mb-2">
-                  <div className="text-2xl text-gray-500 w-full">
-                    {item.jumlah + ".kg"}
-                  </div>
-                  <div className="text-2xl w-full text-black   ">
-                    {" "}
-                    {item.nama_barang}
-                  </div>
-                  <div className="text-2xl text-[#3F72AF] text-end">
-                    {" "}
-                    {formatRupiah(item.harga_jual * item.jumlah)}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div>
-              <div className="p-0.5 bg-black mt-3"></div>
-            </div>
-            <div className="flex mt-2">
-              <p className="text-3xl text-black">Total</p>
-              <p className="text-3xl text-[#3F72AF] w-full text-end">
-                {formatRupiah(totalHarga)}
-              </p>
-            </div>
-          </>
-        </>
-      );
+      setIsiPopup(result.message);
+      setPopup(false);
+      setPopup1(true);
+      setKeranjang({});
+    } else {
+      setIsiPopup(result.message);
+      setPopup(false);
+      setPopup1(true);
+      setKeranjang({});
     }
   };
 
@@ -147,8 +122,7 @@ const Penjualan = () => {
         <div className=" flex ">
           <div className=" bg-white min-h-screen w-20   ">
             <div className="w-full justify-center items-center ">
-              {" "}
-              <img src="../img/logo.png" alt="" className="w-20" />
+              <img src="/img/logo.png" alt="" className="w-20" />
             </div>
             <div className="w-full px-1">
               <div className=" p-0.5 w-full bg-black"> </div>
@@ -193,6 +167,7 @@ const Penjualan = () => {
                   tambahkanKeKeranjang={tambahkanKeKeranjang}
                   keranjang={keranjang}
                   kurangiJumlahItem={kurangiJumlahItem}
+                  pembelian={true}
                 />
               ))}
             </div>
@@ -201,51 +176,13 @@ const Penjualan = () => {
           <div className=" h-screen flex  w-1/2 bg-white flex-col ">
             <div className="overflow-auto h-3/4 flex flex-col gap-2 ">
               {keranjangItems.map((barang) => (
-                <CardPenjualanKeranjang
+                <CardPembelianKeranjang
                   key={barang.id_barang}
                   barang={barang}
                 />
               ))}
             </div>
             <div className=" flex flex-col justify-center  h-1/3 w-full  px-5">
-              <div className="flex items-center">
-                <div className="text-black pe-2 w-full">Metode Pembayaran</div>
-                <div className="w-full flex justify-end ">
-                  <details className="dropdown w-full  ">
-                    <summary className="btn m-1 bg-[#0065DC] text-white font-bold border-white w-full">
-                      {metodePembayaran}
-                    </summary>
-                    <ul className="menu dropdown-content bg-base-100 rounded-box w-full z-[1]  p-2 shadow">
-                      <li>
-                        <button
-                          onClick={() => {
-                            setMetodePembayaran("Cash");
-                          }}
-                          className={
-                            metodePembayaran === "Cash" ? "text-[#0065DC]" : ""
-                          }
-                        >
-                          Cash
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          onClick={() => {
-                            setMetodePembayaran("Transfer");
-                          }}
-                          className={
-                            metodePembayaran === "Transfer"
-                              ? "text-[#0065DC]"
-                              : ""
-                          }
-                        >
-                          Transfer
-                        </button>
-                      </li>
-                    </ul>
-                  </details>
-                </div>
-              </div>
               <div className="flex w-full  ">
                 <div className="w-full">
                   <p className="text-black text-xl">Jumlah Barang</p>
@@ -270,7 +207,7 @@ const Penjualan = () => {
               <button
                 className="p-5 bg-[#0065DC]  w-full rounded-lg mt-2 text-white"
                 onClick={() => {
-                  handleCheckout();
+                  setPopup(true);
                 }}
               >
                 Done
@@ -279,9 +216,23 @@ const Penjualan = () => {
           </div>
         </div>
       </div>
-      {popup && <PopupPenjualan closePopup={closePopup} isi={isiPopup} />}
+      {popup && keranjangItems.length > 0 && (
+        <PopupTambahPembelian
+          closePopup={closePopup}
+          confirm={handleCheckout}
+          isi={"Anda yakin ingin menambah list pembelian ini?"}
+        />
+      )}
+      {popup1 && (
+        <PopupNotif
+          closePopup={() => {
+            setPopup1(false);
+          }}
+          isi={isiPopup}
+        />
+      )}
     </>
   );
 };
 
-export default Penjualan;
+export default Pembelian;

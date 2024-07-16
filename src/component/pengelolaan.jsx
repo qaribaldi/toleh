@@ -2,17 +2,30 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import CardPengelolaan from "./card/cardPengelolaan";
 import { useEffect, useState } from "react";
 import Tambahbarang from "./tambahBarang";
-import PopupTambahBarang from "./popup/popupTambangBarang";
+
+import EditBarang from "./editbarang";
+
 const Pengelolaan = () => {
   const navigate = useNavigate();
+
   const [tambahBarang, setTambahBarang] = useState(false);
+  const [editBarang, setEditBarang] = useState(false);
   const [barang, setBarang] = useState([]);
+  const [indexEdit, setIndexEdit] = useState();
+
+  const [barangEdit, setBarangEdit] = useState();
+  const [change, setChange] = useState(false);
+
+  const berubah = () => {
+    setChange(!change);
+  };
+
   useEffect(() => {
     fetch("http://localhost/tubes/be/get_barang.php")
       .then((response) => response.json())
       .then((data) => setBarang(data))
       .catch((error) => console.error("Error fetching suppliers:", error));
-  }, []);
+  }, [change]);
 
   return (
     <>
@@ -57,16 +70,26 @@ const Pengelolaan = () => {
                 </svg>
               </label>
               <button
-                className="bg-white rounded-md p-1 w-fit shadow-lg text-black font-bold"
+                className={
+                  tambahBarang
+                    ? `bg-[#0065DC]  rounded-md p-1 w-fit shadow-lg text-white font-bold`
+                    : `bg-white rounded-md p-1 w-fit shadow-lg text-black font-bold`
+                }
                 onClick={() => {
-                  setTambahBarang(true);
+                  if (tambahBarang) {
+                    setEditBarang(false);
+                    setTambahBarang(false);
+                  } else {
+                    setEditBarang(false);
+                    setTambahBarang(true);
+                  }
                 }}
               >
                 Tambah barang
               </button>
             </div>
             <div className="overflow-auto   flex-col w-full gap-20 p-10 ">
-              {barang.map((barang) => (
+              {barang.map((barang, index) => (
                 <CardPengelolaan
                   key={barang.id_barang}
                   nama={barang.nama_barang}
@@ -74,12 +97,25 @@ const Pengelolaan = () => {
                   beli={barang.harga_beli}
                   supplier={barang.id_supplier}
                   id_barang={barang.id_barang}
+                  stok={barang.stok}
+                  edit={() => {
+                    setEditBarang(false);
+
+                    setIndexEdit(index);
+                    setBarangEdit(barang);
+                    setTambahBarang(false);
+                    setEditBarang(true);
+                  }}
+                  change={berubah}
                 />
               ))}
             </div>
           </div>
           <div className=" flex flex-col items-center h-screen w-2/5  px-5 bg-white">
-            {tambahBarang && <Tambahbarang />}
+            {tambahBarang && <Tambahbarang change={berubah} />}
+            {editBarang && (
+              <EditBarang barang={barang[indexEdit]} change={berubah} />
+            )}
           </div>
         </div>
       </div>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import PopupTambahBarang from "./popup/popupTambangBarang";
+import PopupTambahBarang from "./popup/popupTambahBarang";
 import PopupNotif from "./popup/popupNotif";
 
-const Tambahbarang = () => {
+const Tambahbarang = ({ change }) => {
   const [namaBarang, setNamaBarang] = useState("");
   const [hargaBeli, setHargaBeli] = useState(0);
   const [hargaJual, setHargaJual] = useState(0);
@@ -43,6 +43,7 @@ const Tambahbarang = () => {
       .then((data) => setSuppliers(data))
       .catch((error) => console.error("Error fetching suppliers:", error));
   }, []);
+
   const handleSubmit = (e) => {
     setPopup(false);
     setPopup1(true);
@@ -64,7 +65,6 @@ const Tambahbarang = () => {
         if (data.error) {
           console.error("Error:", data.error);
         } else {
-          console.log("Success:", data.message);
           setIsiPopup(data.message);
           // Reset form setelah berhasil submit
           setNamaBarang("");
@@ -73,6 +73,7 @@ const Tambahbarang = () => {
           setStok("");
           setIdSupplier("");
           setFotoBarang(null);
+          change();
         }
       })
       .catch((error) => console.error("Error:", error));
@@ -105,12 +106,14 @@ const Tambahbarang = () => {
               <span className="label-text text-black">Supplier</span>
             </div>
             <select
-              value={""}
+              value={idSupplier}
               onChange={handleSelectChange}
               className="select w-full  bg-white text-black border border-black"
               required
             >
-              <option disabled>Pilih Supplier</option>
+              <option disabled value={""}>
+                Pilih Supplier
+              </option>
               {suppliers.map((supplier) => (
                 <option key={supplier.id_supplier} value={supplier.id_supplier}>
                   {supplier.nama_supplier}

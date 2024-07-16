@@ -16,7 +16,8 @@ import Editbarang from "./component/editbarang";
 import PemilikTokoPembelian from "./component/pemilikTokoPembelian";
 import PemilikTokoValidasi from "./component/pemilikTokoValidasi";
 import Tambahbarang from "./component/tambahBarang";
-import KasirPencarian from "./component/kasirPencarianBarang";
+import Pencarian from "./component/Pencarian";
+import Pembelian from "./component/pembelian";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -34,7 +35,7 @@ function App() {
           <Route path="/" element={<Menuutama />} />
           <Route path="/kasir" element={<Menukasir />} />
           <Route path="/kasir/penjualan" element={<Penjualan />} />
-          <Route path="/kasir/pencarian" element={<KasirPencarian />} />
+          <Route path="/kasir/pencarian" element={<Pencarian />} />
 
           <Route path="/pegawai" element={<Pegawai />} />
           <Route path="/pegawai/pembelian" element={<PegawaiPembelian />} />
@@ -42,10 +43,18 @@ function App() {
           <Route path="/pegawai/melihat" element={<Melihatpembelian />} />
           <Route path="/pegawai/editbarang" element={<Editbarang />} />
           <Route path="/pegawai/tambahbarang" element={<Tambahbarang />} />
+          <Route path="/pegawai/pembelian/input" element={<Pembelian />} />
+          <Route
+            path="/pegawai/pembelian/:id_pembelian"
+            element={<Melihatpembelian />}
+          />
 
           <Route path="/pemilik" element={<PemilikToko />} />
           <Route path="/pemilik/pembelian" element={<PemilikTokoPembelian />} />
-          <Route path="/pemilik/validasi" element={<PemilikTokoValidasi />} />
+          <Route
+            path="/pemilik/pembelian/:id_pembelian"
+            element={<PemilikTokoValidasi />}
+          />
         </Routes>
       </Router>
     </>

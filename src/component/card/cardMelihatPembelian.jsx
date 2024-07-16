@@ -1,31 +1,71 @@
-const CardMelihatPembelian = () => {
+import { useEffect, useState } from "react";
+
+const CardMelihatPembelian = ({ barang }) => {
+  const [barangItem, setBarangItem] = useState();
+  const formatRupiah = (number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(number);
+  };
+  useEffect(() => {
+    fetch(
+      `http://localhost/tubes/be/get_barang_supplier.php?id_barang=${barang.id_barang}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setBarangItem(data);
+      })
+      .catch((error) => console.error("Error fetching suppliers:", error));
+  }, []);
   return (
     <>
       <div className="bg-white rounded-md mt-10 flex shadow-md">
-        <div className="p-2 flex">
-          <img
-            className=" w-48 rounded-md"
-            src="https://img.okezone.com/content/2023/03/02/406/2774395/sah-dodol-garut-tradisi-ngawuwuh-dan-burayot-jadi-warisan-budaya-tak-benda-0KkEVDhh7V.jpg"
-            alt=""
-          />
+        <div className="w-1/4 flex items-center p-2 ">
+          <div
+            className="w-full h-[150px] bg-cover rounded-md"
+            style={{
+              backgroundImage: `url( ${
+                "http://localhost/tubes/be/foto/" + barang.id_barang + ".png"
+              })`,
+            }}
+          ></div>
         </div>
-        <div className="px-5 w-full text-lg">
-          <p className="text-3xl font-bold mt-2">Nama Snack</p>
-          <p className="text-lg mt-5">Harga beli :</p>
-          <p className="text-lg">Harga jual :</p>
-          <p className="text-lg mb-5">Supplier : </p>
+        <div className="text-black">
+          <p className="text-3xl font-bold mt-2">
+            {barangItem && barangItem.nama_barang}
+          </p>
+          <div className="px-5 w-full text-lg flex gap-2">
+            <div>
+              <p className="text-lg mt-5">Jumlah</p>
+              <p className="text-lg ">Harga beli </p>
+              <p className="text-lg ">Harga Total </p>
+              <p className="text-lg ">Supplier </p>
+            </div>
+            <div>
+              <p className="text-lg mt-5">:</p>
+              <p className="text-lg">:</p>
+              <p className="text-lg ">:</p>
+              <p className="text-lg ">:</p>
+            </div>
+            <div>
+              <p className="text-lg mt-5">{barang.jumlah}</p>
+              <p className="text-lg "> {formatRupiah(barang.harga_barang)}</p>
+
+              <p className="text-lg ">
+                {formatRupiah(barang.harga_barang * barang.jumlah)}{" "}
+              </p>
+              <p className="text-lg mb-4">
+                {barangItem && barangItem.nama_supplier}
+              </p>
+            </div>
+          </div>
         </div>
         <div
           className=" flex flex-col p-3 gap-2 justify-end
           "
-        >
-          <button className="p-1 px-3 bg-red-500 w-full rounded-md text-white font-bold">
-            Edit
-          </button>
-          <button className="p-1 px-3 bg-red-500 w-full rounded-md text-white font-bold">
-            Hapus
-          </button>
-        </div>
+        ></div>
       </div>
     </>
   );

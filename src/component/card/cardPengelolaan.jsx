@@ -1,4 +1,20 @@
-const CardPengelolaan = ({ nama, beli, jual, supplier, id_barang }) => {
+import { useEffect, useState } from "react";
+import PopupDeleteBarang from "../popup/popupDeleteBarang";
+import PopupNotif from "../popup/popupNotif";
+
+const CardPengelolaan = ({
+  nama,
+  beli,
+  jual,
+  supplier,
+  id_barang,
+  stok,
+  edit,
+  change,
+}) => {
+  const [popup, setPopup] = useState(false);
+  const [popup1, setPopup1] = useState(false);
+  const [isiPopup, setIsiPopup] = useState("");
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -6,6 +22,40 @@ const CardPengelolaan = ({ nama, beli, jual, supplier, id_barang }) => {
       minimumFractionDigits: 0,
     }).format(number);
   };
+  const [namaSupplier, setNamaSupplier] = useState("");
+
+  useEffect(() => {
+    fetch(
+      `http://localhost/tubes/be/get_supplier_byid.php?id_supplier=${supplier}`
+    )
+      .then((response) => response.json())
+      .then((data) => setNamaSupplier(data.nama_supplier))
+      .catch((error) => console.error("Error fetching suppliers:", error));
+  }, [supplier]);
+
+  const handleSubmit = (e) => {
+    setPopup(false);
+    setPopup1(true);
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("id_barang", id_barang);
+
+    fetch("http://localhost/tubes/be/delete_barang.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          setIsiPopup(data.error);
+        } else {
+          setIsiPopup(data.message);
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
   return (
     <>
       <div className="bg-white shadow-xl rounded-md mt-10 flex">
@@ -20,7 +70,14 @@ const CardPengelolaan = ({ nama, beli, jual, supplier, id_barang }) => {
           ></div>
         </div>
         <div className="w-full">
-          <p className="text-3xl font-bold mt-2 text-black">{nama}</p>
+          <div className="w-full flex items-center">
+            <p className="text-3xl font-bold mt-2 text-black w-full">{nama}</p>
+            <div className="pe-10 w-full">
+              <p className="w-full text-end text-black text-xl">
+                {stok + " Kg"}
+              </p>
+            </div>
+          </div>
           <div className="px-5 w-full text-lg flex ">
             <div className="flex gap-2 w-full text-black">
               <div>
@@ -36,7 +93,7 @@ const CardPengelolaan = ({ nama, beli, jual, supplier, id_barang }) => {
               <div>
                 <p className="text-lg mt-5">{formatRupiah(beli)} </p>
                 <p className="text-lg">{formatRupiah(jual)}</p>
-                <p className="text-lg mb-5">{supplier} </p>
+                <p className="text-lg mb-5">{namaSupplier} </p>
               </div>
             </div>
             <div>
@@ -44,10 +101,18 @@ const CardPengelolaan = ({ nama, beli, jual, supplier, id_barang }) => {
                 className=" flex flex-col p-3 gap-2 justify-end h-full
           "
               >
-                <button className="p-1 px-3 bg-[#0065DC] hover:bg-[#112D4E] w-full rounded-md text-white font-bold">
+                <button
+                  className="p-1 px-3 bg-[#0065DC] hover:bg-[#112D4E] w-full rounded-md text-white font-bold"
+                  onClick={edit}
+                >
                   Edit
                 </button>
-                <button className="p-1 px-3 bg-black w-full rounded-md text-white font-bold">
+                <button
+                  className="p-1 px-3 bg-black w-full rounded-md text-white font-bold"
+                  onClick={() => {
+                    setPopup(true);
+                  }}
+                >
                   Hapus
                 </button>
               </div>
@@ -55,6 +120,24 @@ const CardPengelolaan = ({ nama, beli, jual, supplier, id_barang }) => {
           </div>
         </div>
       </div>
+      {popup && (
+        <PopupDeleteBarang
+          isi={"Apakah Anda Yakin ingin menghapus barang ini"}
+          closePopup={() => {
+            setPopup(false);
+          }}
+          confirm={handleSubmit}
+        />
+      )}
+      {popup1 && (
+        <PopupNotif
+          isi={isiPopup}
+          closePopup={() => {
+            setPopup1(false);
+            change();
+          }}
+        />
+      )}
     </>
   );
 };

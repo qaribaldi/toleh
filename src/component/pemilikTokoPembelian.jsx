@@ -1,10 +1,20 @@
+import { useEffect, useState } from "react";
 import CardPembelian from "./card/cardPembelian";
+
 const PemilikTokoPembelian = () => {
+  const [pembelian, setPembelian] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost/tubes/be/get_pembelian.php")
+      .then((response) => response.json())
+      .then((data) => setPembelian(data))
+      .catch((error) => console.error("Error fetching suppliers:", error));
+  }, []);
+  console.log(pembelian);
   return (
     <>
       <div>
         <div className=" flex ">
-          <div className="w-20 bg-white shadow-lg">
+          <div className="w-16 bg-white shadow-lg">
             <img src="../img/logo.png" alt="" />
             <div className="w-full px-1">
               <div className=" p-0.5 w-full bg-black"> </div>
@@ -34,13 +44,13 @@ const PemilikTokoPembelian = () => {
                 </svg>
               </label>
             </div>
-            <div className=" flex-col w-full gap-20 p-10">
-              <CardPembelian />
-              <CardPembelian />
-              <CardPembelian />
-              <CardPembelian />
-              <CardPembelian />
-              <CardPembelian />
+            <div className=" overflow-scroll h-screen flex-col w-full gap-20 p-10">
+              {pembelian.map((pembelian) => (
+                <CardPembelian
+                  pembelian={pembelian}
+                  key={pembelian.id_pembelian}
+                />
+              ))}
             </div>
           </div>
 

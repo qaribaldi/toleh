@@ -73,7 +73,7 @@ const Pegawai = () => {
                 >
                   <div>
                     <img
-                      src="https://img.icons8.com/?size=100&id=9671&format=png&color=ffffff"
+                      src="https://img.icons8.com/?size=100&id=HzeaDe1Gb33P&format=png&color=ffffff"
                       alt=""
                     />
                     <div className="flex w-full justify-end">
@@ -83,13 +83,15 @@ const Pegawai = () => {
                         alt=""
                       />
                     </div>
-                    <p className="text-white text-3xl font-bold">Penjualan</p>
+                    <p className="text-white text-3xl font-bold">
+                      Pencarian Barang
+                    </p>
                   </div>
                 </button>
                 <button
                   className="bg-[#3F72AF] hover:bg-[#112D4E] p-5 rounded-[40px] w-[200px] shadow-[2.4px_2.4px_3.2px_rgba(0,0,0,15)]"
                   onClick={() => {
-                    navigate("/kasir/penjualan");
+                    navigate("/pegawai/pembelian");
                   }}
                 >
                   <div>
@@ -104,7 +106,7 @@ const Pegawai = () => {
                         alt=""
                       />
                     </div>
-                    <p className="text-white text-3xl font-bold">Penjualan</p>
+                    <p className="text-white text-3xl font-bold">Pembelian</p>
                   </div>
                 </button>
               </div>

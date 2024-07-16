@@ -1,87 +1,187 @@
-import CardEditBarang from "./card/cardEditBarang";
-const Editbarang = () => {
+import { useEffect, useState } from "react";
+import PopupTambahBarang from "./popup/popupTambahBarang";
+import PopupNotif from "./popup/popupNotif";
+
+const EditBarang = ({ barang, change }) => {
+  const [namaBarang, setNamaBarang] = useState(barang.nama_barang);
+  const [hargaBeli, setHargaBeli] = useState(barang.harga_beli);
+  const [hargaJual, setHargaJual] = useState(barang.harga_jual);
+  const [stok, setStok] = useState(barang.stok);
+  const [idSupplier, setIdSupplier] = useState(barang.id_supplier);
+
+  const [suppliers, setSuppliers] = useState([]);
+  const [popup, setPopup] = useState(false);
+  const [popup1, setPopup1] = useState(false);
+  const [isiPopup, setIsiPopup] = useState("");
+  useEffect(() => {
+    setNamaBarang(barang.nama_barang);
+    setHargaBeli(barang.harga_beli);
+    setHargaJual(barang.harga_jual);
+    setStok(barang.stok);
+    setIdSupplier(barang.id_supplier);
+  }, [barang]);
+
+  const handleSelectChange = (event) => {
+    setIdSupplier(event.target.value);
+  };
+
+  const handleNamaChange = (event) => {
+    setNamaBarang(event.target.value);
+  };
+  const handleBeliChange = (event) => {
+    setHargaBeli(event.target.value);
+  };
+  const handleJualChange = (event) => {
+    setHargaJual(event.target.value);
+  };
+  const handleStokChange = (event) => {
+    setStok(event.target.value);
+  };
+
+  useEffect(() => {
+    fetch("http://localhost/tubes/be/get_supplier.php")
+      .then((response) => response.json())
+      .then((data) => setSuppliers(data))
+      .catch((error) => console.error("Error fetching suppliers:", error));
+  }, []);
+
+  const handleSubmit = (e) => {
+    setPopup(false);
+    setPopup1(true);
+    e.preventDefault();
+    const id = barang.id_barang;
+    console.log(id);
+    const formData = new FormData();
+    formData.append("id_barang", id);
+    formData.append("nama_barang", namaBarang);
+    formData.append("harga_beli", hargaBeli);
+    formData.append("harga_jual", hargaJual);
+    formData.append("stok", stok);
+    formData.append("id_supplier", idSupplier);
+
+    fetch("http://localhost/tubes/be/update_barang.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          setIsiPopup(data.error);
+        } else {
+          setIsiPopup(data.message);
+          change();
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  };
+
+  const handlePopup = (e) => {
+    e.preventDefault();
+    setPopup(true);
+  };
+
   return (
     <>
-      <div>
-        <div className=" flex ">
-          <div className="w-28 bg-slate-200 ">Logo</div>
-          <div className="w-28 bg-slate-200 fixed min-h-screen flex justify-center">
-            Logo
-          </div>
-          <div className="bg-red-600 w-full min-h-screen flex items-center flex-col">
-            <div className=" px-5 py-1 fixed  w-3/5 flex gap-5">
-              <label className="input input-bordered flex items-center gap-2 bg-white opacity-50 w-full :bg-black">
-                <input type="text" className="grow" placeholder="Search" />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-4 w-4 opacity-70"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </label>
-              <button className="bg-gray-500 rounded-md p-1">
-                Tambah barang
-              </button>
+      <div className="text-3xl text-black font-bold mt-5">Edit Barang</div>
+      <form onSubmit={handlePopup} className="h-screen w-full">
+        <div className=" w-full flex gap-1 flex-col">
+          <label className="form-control w-full ">
+            <div className="label">
+              <span className="label-text text-black">Nama Snack</span>
             </div>
-            <div className=" flex-col w-full gap-20 p-10">
-              <CardEditBarang />
-              <CardEditBarang />
-              <CardEditBarang />
-              <CardEditBarang />
-              <CardEditBarang />
-              <CardEditBarang />
+            <input
+              type="text"
+              value={namaBarang}
+              onChange={handleNamaChange}
+              className="input input-bordered w-full bg-white shadow-md text-black"
+              required
+            />
+          </label>
+          <label className="form-control w-full ">
+            <div className="label">
+              <span className="label-text text-black">Supplier</span>
             </div>
-          </div>
-          <div className="w-1/3"></div>
-          <div className=" fixed w-1/4 min-h-screen  bg-slate-500 right-0 flex flex-col gap-3">
-            <p className="text-center text-3xl text-black mt-2">
-              Nama Snack
-              <button className="btn btn-ghost">
-                <img
-                  className="w-5"
-                  src="https://cdn-icons-png.flaticon.com/128/2985/2985043.png"
-                  alt=""
-                />
-              </button>
-            </p>
-            <p className="text-black">Id Barang</p>
-            <p className="text-black">Supplier</p>
-            <div className="flex flex-col gap-2 mt-10 p-3">
-              <p className="text-black">Harga Jual : </p>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full max-w-xs bg-white "
-              />
-              <p className="text-black">Harga Beli : </p>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full max-w-xs bg-white "
-              />
-              <p className="text-black">Stok : </p>
-              <input
-                type="text"
-                placeholder="Type here"
-                className="input input-bordered w-full max-w-xs bg-white "
-              />
+            <select
+              value={idSupplier}
+              onChange={handleSelectChange}
+              className="select w-full  bg-white text-black border border-black"
+              required
+            >
+              <option disabled>Pilih Supplier</option>
+              {suppliers.map((supplier) => (
+                <option key={supplier.id_supplier} value={supplier.id_supplier}>
+                  {supplier.nama_supplier}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="form-control w-full ">
+            <div className="label">
+              <span className="label-text text-black">Harga Beli : </span>
             </div>
-            <div className="fixed bottom-0 w-1/4 p-2">
-              <button className="bg-red-600 w-full p-2 rounded-md">
-                Simpan
-              </button>
+            <input
+              type="number"
+              value={hargaBeli}
+              onChange={handleBeliChange}
+              className="input input-bordered w-full bg-white shadow-md text-black"
+              required
+            />
+          </label>
+          <label className="form-control w-full ">
+            <div className="label">
+              <span className="label-text text-black">Harga Jual :</span>
             </div>
-          </div>
+            <input
+              type="text"
+              className="input input-bordered w-full bg-white shadow-md text-black"
+              value={hargaJual}
+              onChange={handleJualChange}
+              required
+            />
+          </label>
+          <label className="form-control w-full ">
+            <div className="label">
+              <span className="label-text text-black">Stok :</span>
+            </div>
+            <input
+              type="text"
+              value={stok}
+              className="input input-bordered w-full bg-white shadow-md text-black"
+              onChange={handleStokChange}
+              required
+            />
+          </label>
         </div>
-      </div>
+        <div className="w-full mt-10    flex items-end pb-5">
+          <button
+            className="bg-[#0065DC] h-fit w-full p-2 rounded-lg text-white font-bold "
+            type="submit"
+          >
+            Simpan
+          </button>
+        </div>
+      </form>
+
+      {popup && (
+        <PopupTambahBarang
+          isi={"Anda yakin ingin edit barang ini"}
+          closePopup={() => {
+            setPopup(false);
+          }}
+          confirm={handleSubmit}
+        />
+      )}
+
+      {popup1 && (
+        <PopupNotif
+          closePopup={() => {
+            setPopup1(false);
+          }}
+          isi={isiPopup}
+        />
+      )}
     </>
   );
 };
 
-export default Editbarang;
+export default EditBarang;

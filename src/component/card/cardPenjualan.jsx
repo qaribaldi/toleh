@@ -3,6 +3,7 @@ const CardPenjualan = ({
   tambahkanKeKeranjang,
   keranjang,
   kurangiJumlahItem,
+  pembelian = false,
 }) => {
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -14,22 +15,31 @@ const CardPenjualan = ({
 
   return (
     <>
-      <div className="bg-white shadow-2xl rounded-lg w-[200px] pb-5 h-fit">
+      <div className="bg-white w-full shadow-2xl rounded-lg  pb-5 h-fit">
         <div className="p-3">
           <div
             className="w-full h-[150px] bg-cover rounded-md"
             style={{
               backgroundImage: `url( ${
-                "http://localhost/tubes/be/foto/" + barang.id_barang + ".jpg"
+                "http://localhost/tubes/be/foto/" + barang.id_barang + ".png"
               })`,
             }}
           ></div>
         </div>
-        <div className="px-5 flex flex-col gap-3">
+        <div className="px-5 flex flex-col gap-1">
           <p className="text-black font-bold text-xl">{barang.nama_barang}</p>
-          <p className="text-lg text-[#0065DC] ">
-            {formatRupiah(barang.harga_jual)}
-          </p>
+          {pembelian ? (
+            <>
+              <p className="text-black  text-md">Stok : {barang.stok} Kg</p>
+              <p className="text-lg text-[#0065DC] ">
+                {formatRupiah(barang.harga_beli)}
+              </p>
+            </>
+          ) : (
+            <p className="text-lg text-[#0065DC] ">
+              {formatRupiah(barang.harga_jual)}
+            </p>
+          )}
 
           {keranjang[barang.id_barang] === undefined ? (
             <button

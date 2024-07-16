@@ -1,16 +1,60 @@
+import { useNavigate, useSearchParams } from "react-router-dom";
 import CardPengelolaan from "./card/cardPengelolaan";
+import { useEffect, useState } from "react";
+import Tambahbarang from "./tambahBarang";
+
+import EditBarang from "./editbarang";
+
 const Pengelolaan = () => {
+  const navigate = useNavigate();
+
+  const [tambahBarang, setTambahBarang] = useState(false);
+  const [editBarang, setEditBarang] = useState(false);
+  const [barang, setBarang] = useState([]);
+  const [indexEdit, setIndexEdit] = useState();
+
+  const [barangEdit, setBarangEdit] = useState();
+  const [change, setChange] = useState(false);
+
+  const berubah = () => {
+    setChange(!change);
+  };
+
+  useEffect(() => {
+    fetch("http://localhost/tubes/be/get_barang.php")
+      .then((response) => response.json())
+      .then((data) => setBarang(data))
+      .catch((error) => console.error("Error fetching suppliers:", error));
+  }, [change]);
+
   return (
     <>
       <div>
         <div className=" flex ">
-          <div className="w-28 bg-slate-200 ">Logo</div>
-          <div className="w-28 bg-slate-200 fixed min-h-screen flex justify-center">
-            Logo
+          <div className=" bg-white h-screen  w-20   ">
+            <div className="w-full justify-center items-center ">
+              {" "}
+              <img src="../img/logo.png" alt="" />
+            </div>
+            <div className="w-full px-1">
+              <div className=" p-0.5 w-full bg-black"> </div>
+            </div>
+            <button
+              className="mt-2 flex justify-center p-2  "
+              onClick={() => {
+                navigate("/pegawai");
+              }}
+            >
+              <img
+                src="https://img.icons8.com/?size=100&id=1806&format=png&color=000000"
+                className=" hover:bg-[#3F72AF] p-1 rounded-lg"
+              />
+            </button>
           </div>
-          <div className="bg-red-600 w-full min-h-screen flex items-center flex-col">
-            <div className=" px-5 py-1 fixed  w-1/2 flex gap-5">
-              <label className="input input-bordered flex items-center gap-2 bg-white opacity-50 w-full :bg-black">
+          <div className="p-1 bg-gradient-to-r from-gray-200 to-[#F0F0F0] "></div>
+          <div className="bg-[#F0F0F0] w-full h-screen  flex items-center flex-col">
+            <div className=" px-5 py-1 fixed  w-1/2 flex gap-5 ">
+              <label className="input input-bordered flex items-center gap-2 bg-white shadow-xl w-full">
                 <input type="text" className="grow" placeholder="Search" />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -25,81 +69,53 @@ const Pengelolaan = () => {
                   />
                 </svg>
               </label>
-              <button className="bg-gray-500 rounded-md p-1">
+              <button
+                className={
+                  tambahBarang
+                    ? `bg-[#0065DC]  rounded-md p-1 w-fit shadow-lg text-white font-bold`
+                    : `bg-white rounded-md p-1 w-fit shadow-lg text-black font-bold`
+                }
+                onClick={() => {
+                  if (tambahBarang) {
+                    setEditBarang(false);
+                    setTambahBarang(false);
+                  } else {
+                    setEditBarang(false);
+                    setTambahBarang(true);
+                  }
+                }}
+              >
                 Tambah barang
               </button>
             </div>
-            <div className=" flex-col w-full gap-20 p-10">
-              <CardPengelolaan />
-              <CardPengelolaan />
-              <CardPengelolaan />
-              <CardPengelolaan />
-              <CardPengelolaan />
-              <CardPengelolaan />
+            <div className="overflow-auto   flex-col w-full gap-20 p-10 ">
+              {barang.map((barang, index) => (
+                <CardPengelolaan
+                  key={barang.id_barang}
+                  nama={barang.nama_barang}
+                  jual={barang.harga_jual}
+                  beli={barang.harga_beli}
+                  supplier={barang.id_supplier}
+                  id_barang={barang.id_barang}
+                  stok={barang.stok}
+                  edit={() => {
+                    setEditBarang(false);
+
+                    setIndexEdit(index);
+                    setBarangEdit(barang);
+                    setTambahBarang(false);
+                    setEditBarang(true);
+                  }}
+                  change={berubah}
+                />
+              ))}
             </div>
           </div>
-          <div className="w-1/3"></div>
-          <div className=" fixed w-1/4 min-h-screen  bg-slate-500 right-0 flex flex-col">
-            <p className="text-center text-3xl text-black mt-2">
-              Tambah Barang
-            </p>
-            <div className="p-4">
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">Nama snack:</span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs"
-                />
-              </label>
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">Nama snack:</span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs"
-                />
-              </label>
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">Nama snack:</span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs"
-                />
-              </label>
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">Nama snack:</span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs"
-                />
-              </label>
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">Nama snack:</span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Type here"
-                  className="input input-bordered w-full max-w-xs"
-                />
-              </label>
-            </div>
-            <div className="p-3  flex mt-28">
-              <button className="bg-red-600 p-3 w-full rounded-md ">
-                Simpan
-              </button>
-            </div>
+          <div className=" flex flex-col items-center h-screen w-2/5  px-5 bg-white">
+            {tambahBarang && <Tambahbarang change={berubah} />}
+            {editBarang && (
+              <EditBarang barang={barang[indexEdit]} change={berubah} />
+            )}
           </div>
         </div>
       </div>

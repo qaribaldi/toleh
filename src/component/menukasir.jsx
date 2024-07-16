@@ -41,7 +41,12 @@ const Menukasir = () => {
                 meraih sukses dengan sedikit kompetisi dalam pekerjaan anda.
               </p>
               <div className="flex gap-16 mt-[60px]">
-                <button className="bg-[#3F72AF] hover:bg-[#112D4E] p-5 rounded-[40px] w-[228px] shadow-[2.4px_2.4px_3.2px_rgba(0,0,0,15)]">
+                <button
+                  className="bg-[#3F72AF] hover:bg-[#112D4E] p-5 rounded-[40px] w-[228px] shadow-[2.4px_2.4px_3.2px_rgba(0,0,0,15)]"
+                  onClick={() => {
+                    navigate("/kasir/pencarian");
+                  }}
+                >
                   <div>
                     <img
                       src="https://img.icons8.com/?size=100&id=HzeaDe1Gb33P&format=png&color=ffffff"

@@ -16,7 +16,7 @@ const CardPenjualanKeranjang = (barang) => {
             backgroundImage: `url( ${
               "http://localhost/tubes/be/foto/" +
               barang.barang.id_barang +
-              ".jpg"
+              ".png"
             })`,
           }}
         ></div>

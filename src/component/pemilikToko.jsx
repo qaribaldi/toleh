@@ -74,9 +74,7 @@ const Menukasir = () => {
                         alt=""
                       />
                     </div>
-                    <p className="text-white text-3xl font-bold">
-                      Validasi Pembelian
-                    </p>
+                    <p className="text-white text-3xl font-bold">Pembelian</p>
                   </div>
                 </button>
                 {/* box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; */}
@@ -100,7 +98,7 @@ const Menukasir = () => {
                       />
                     </div>
                     <p className="text-white text-3xl font-bold">
-                      Pencarian Data Pembelian
+                      Pencarian Data Barang
                     </p>
                   </div>
                 </button>

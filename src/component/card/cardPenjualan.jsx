@@ -4,6 +4,7 @@ const CardPenjualan = ({
   keranjang,
   kurangiJumlahItem,
   pembelian = false,
+  updateJumlahItem,
 }) => {
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -11,6 +12,16 @@ const CardPenjualan = ({
       currency: "IDR",
       minimumFractionDigits: 0,
     }).format(number);
+  };
+
+  const handleInputChange = (event) => {
+    const newJumlah = parseFloat(event.target.value);
+    if (!isNaN(newJumlah) && newJumlah >= 0) {
+      updateJumlahItem(barang, newJumlah);
+    } else if (event.target.value === "") {
+      // Handle empty input as 0
+      updateJumlahItem(barang, 0);
+    }
   };
 
   return (
@@ -61,9 +72,13 @@ const CardPenjualan = ({
               >
                 -
               </button>
-              <div className="w-full text-center text-xl font-bold  text-black">
-                {keranjang[barang.id_barang].jumlah}
-              </div>
+              <input
+                type="number"
+                value={keranjang[barang.id_barang].jumlah}
+                onChange={handleInputChange}
+                min="0"
+                className="bg-white w-3/4 text-center text-black font-bold text-lg"
+              />
               <button
                 className="p-2 px-4 bg-[#0065DC] hover:bg-[#112D4E]  rounded-md text-white font-bold text-md"
                 onClick={() => {

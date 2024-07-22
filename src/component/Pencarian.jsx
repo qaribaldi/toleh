@@ -1,30 +1,48 @@
 import { useEffect, useState } from "react";
 import CardPencarian from "./card/cardPencarian";
 import { useNavigate } from "react-router-dom";
+
 const Pencarian = ({ status }) => {
   const [barang, setBarang] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+
   useEffect(() => {
-    fetch(`http://localhost/tubes/be/get_barang.php`)
-      .then((response) => response.json())
-      .then((data) => setBarang(data))
-      .catch((error) => console.error("Error fetching suppliers:", error));
-  }, []);
+    const fetchData = async () => {
+      let url = `http://localhost/tubes/be/get_barang.php`;
+      if (searchTerm) {
+        url += `?search_term=${searchTerm}`;
+      }
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setBarang(data);
+      } catch (error) {
+        console.error("Error fetching barang:", error);
+      }
+    };
+
+    fetchData();
+  }, [searchTerm]);
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
   return (
     <>
       <div>
-        <div className=" flex ">
-          <div className=" bg-white min-h-screen w-16  ">
-            <div className="w-full justify-center items-center ">
-              {" "}
+        <div className="flex">
+          <div className="bg-white min-h-screen w-16">
+            <div className="w-full justify-center items-center">
               <img src="../img/logo.png" alt="" />
             </div>
             <div className="w-full px-1">
-              <div className=" p-0.5 w-full bg-black"> </div>
+              <div className="p-0.5 w-full bg-black"></div>
             </div>
             <button
-              className="mt-2 flex justify-center p-2  "
+              className="mt-2 flex justify-center p-2"
               onClick={() => {
                 if (status === "pemilik") {
                   navigate("/pemilik");
@@ -37,15 +55,21 @@ const Pencarian = ({ status }) => {
             >
               <img
                 src="https://img.icons8.com/?size=100&id=1806&format=png&color=000000"
-                className=" hover:bg-[#3F72AF] p-1 rounded-lg"
+                className="hover:bg-[#3F72AF] p-1 rounded-lg"
               />
             </button>
-          </div>{" "}
-          <div className="p-1 bg-gradient-to-r from-gray-200 to-[#F0F0F0] "></div>
+          </div>
+          <div className="p-1 bg-gradient-to-r from-gray-200 to-[#F0F0F0]"></div>
           <div className="bg-[#F0F0F0] w-full min-h-screen flex items-center flex-col">
-            <div className=" px-5 py-1 fixed  w-4/5 flex gap-5 ">
-              <label className="input input-bordered flex items-center gap-2 bg-white w-full :bg-black shadow-md">
-                <input type="text" className="grow" placeholder="Search " />
+            <div className="px-5 py-1 fixed w-4/5 flex gap-5">
+              <label className="input input-bordered flex items-center gap-2 bg-white w-full shadow-md">
+                <input
+                  type="text"
+                  className="grow"
+                  placeholder="Search"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -60,13 +84,13 @@ const Pencarian = ({ status }) => {
                 </svg>
               </label>
             </div>
-            <div className=" overflow-scroll h-screen w-full gap-20 p-10">
-              {barang.map((barang) => (
-                <CardPencarian barang={barang} key={barang.id_barang} />
+            <div className="overflow-scroll h-screen w-full gap-20 p-10">
+              {barang.map((item) => (
+                <CardPencarian barang={item} key={item.id_barang} />
               ))}
             </div>
           </div>
-          <div className=" w-28 min-h-screen  bg-white right-0 flex flex-col"></div>
+          <div className="w-28 min-h-screen bg-white right-0 flex flex-col"></div>
         </div>
       </div>
     </>

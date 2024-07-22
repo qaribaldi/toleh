@@ -50,7 +50,7 @@ const CardMelihatPembelian = ({ barang }) => {
               <p className="text-lg ">:</p>
             </div>
             <div>
-              <p className="text-lg mt-5">{barang.jumlah}</p>
+              <p className="text-lg mt-5">{barang.jumlah} Kg</p>
               <p className="text-lg "> {formatRupiah(barang.harga_barang)}</p>
 
               <p className="text-lg ">

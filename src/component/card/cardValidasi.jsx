@@ -27,7 +27,7 @@ const CardValidasi = ({ barang, handleCheckboxChange, status }) => {
 
   return (
     <>
-      <div className="bg-white rounded-md mt-10 flex ">
+      <div className="bg-white rounded-md  flex ">
         <div className="flex w-1/4 h-full p-1 ">
           <div
             className="w-48 h-[150px] bg-cover rounded-md "
@@ -59,7 +59,7 @@ const CardValidasi = ({ barang, handleCheckboxChange, status }) => {
               <p>:</p>
             </div>
             <div className="w-full">
-              <p>{barang.id_barang}</p>
+              <p>{barangItem.nama_supplier}</p>
               <p>{formatRupiah(barangItem.harga_beli)} / kg</p>
               <p>{barang.jumlah}</p>
               <p>{formatRupiah(barang.jumlah * barangItem.harga_beli)}</p>
@@ -68,7 +68,7 @@ const CardValidasi = ({ barang, handleCheckboxChange, status }) => {
               {status !== "Terbeli" && (
                 <input
                   type="checkbox"
-                  className="checkbox"
+                  className="checkbox border border-black"
                   checked={barang.status}
                   onChange={() => {
                     handleCheckboxChange(barang.id_barang);

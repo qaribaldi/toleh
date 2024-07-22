@@ -14,6 +14,7 @@ const Pembelian = () => {
   const [popup1, setPopup1] = useState(false);
   const [isiPopup, setIsiPopup] = useState(true);
   const [barang, setBarang] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -24,11 +25,23 @@ const Pembelian = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost/tubes/be/get_barang.php")
-      .then((response) => response.json())
-      .then((data) => setBarang(data))
-      .catch((error) => console.error("Error fetching suppliers:", error));
-  }, []);
+    const fetchData = async () => {
+      let url = `http://localhost/tubes/be/get_barang.php`;
+      if (searchTerm) {
+        url += `?search_term=${searchTerm}`;
+      }
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setBarang(data);
+      } catch (error) {
+        console.error("Error fetching barang:", error);
+      }
+    };
+
+    fetchData();
+  }, [searchTerm]);
 
   const [keranjang, setKeranjang] = useState({});
 
@@ -65,6 +78,22 @@ const Pembelian = () => {
       });
     } else {
       // Jika jumlah barang tinggal 1, hapus dari keranjang
+      const updatedKeranjang = { ...keranjang };
+      delete updatedKeranjang[barang.id_barang];
+      setKeranjang(updatedKeranjang);
+    }
+  };
+
+  const updateJumlahItem = (barang, jumlah) => {
+    if (jumlah >= 0) {
+      setKeranjang({
+        ...keranjang,
+        [barang.id_barang]: {
+          ...barang,
+          jumlah: jumlah,
+        },
+      });
+    } else {
       const updatedKeranjang = { ...keranjang };
       delete updatedKeranjang[barang.id_barang];
       setKeranjang(updatedKeranjang);
@@ -144,7 +173,13 @@ const Pembelian = () => {
           <div className="bg-[#F0F0F0] w-full min-h-screen flex items-center flex-col">
             <div className=" px-5 py-1 fixed  w-1/2 ">
               <label className="input input-bordered flex items-center gap-2 bg-white shadow-xl">
-                <input type="text" className="grow" placeholder="Search" />
+                <input
+                  type="text"
+                  className="grow"
+                  placeholder="Search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -168,6 +203,7 @@ const Pembelian = () => {
                   keranjang={keranjang}
                   kurangiJumlahItem={kurangiJumlahItem}
                   pembelian={true}
+                  updateJumlahItem={updateJumlahItem}
                 />
               ))}
             </div>

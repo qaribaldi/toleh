@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const CardPembelianKeranjang = (barang) => {
   const formatRupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
@@ -6,6 +8,16 @@ const CardPembelianKeranjang = (barang) => {
       minimumFractionDigits: 0,
     }).format(number);
   };
+  const [namaSupplier, setNamaSupplier] = useState("");
+
+  useEffect(() => {
+    fetch(
+      `http://localhost/tubes/be/get_supplier_byid.php?id_supplier=${barang.barang.id_supplier}`
+    )
+      .then((response) => response.json())
+      .then((data) => setNamaSupplier(data.nama_supplier))
+      .catch((error) => console.error("Error fetching suppliers:", error));
+  }, []);
 
   return (
     <>
@@ -39,7 +51,7 @@ const CardPembelianKeranjang = (barang) => {
               <p>:</p>
             </div>
             <div>
-              <p>{barang.barang.id_supplier}</p>
+              <p>{namaSupplier}</p>
               <p>{barang.barang.jumlah}</p>
               <p>{formatRupiah(barang.barang.harga_beli)}</p>
               <p>

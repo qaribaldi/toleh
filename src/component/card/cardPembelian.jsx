@@ -12,7 +12,7 @@ const CardPembelian = ({ pembelian }) => {
   };
   return (
     <>
-      <div className="bg-white rounded-md mt-10 flex shadow-md text-black">
+      <div className="bg-white rounded-md mt-5 flex shadow-md text-black">
         <div className=" p-2 w-full">
           <div className=" flex">
             <p className="w-full font-bold text-xl">
